@@ -4,6 +4,12 @@
 # 7 October 2014
 # floor@berkeley.edu
 
+
+### Modified by Shaojun Xie
+### 2/21/2018
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import sys, os, argparse
 
 import GTF
