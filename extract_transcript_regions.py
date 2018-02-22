@@ -19,7 +19,6 @@ from Transcript import *
 
 print " ----------------------------------"
 print "| Extract Regions from annotations |"
-print "|  snf        Fall 2014            |"
 print " ----------------------------------\n\n"
 
 
