@@ -50,6 +50,8 @@ noncodingIntronFName = args.output + "_noncodingintrons.bed"
 
 promoterFName = args.output + "_promoter.bed"
 p15kFName = args.output + "_p15k.bed"
+d1kFName = args.output + "_d1k.bed"
+
 
 #keep track of where we are
 genesRead = 0
@@ -58,7 +60,7 @@ genesRead = 0
 #terminate if output files exist
 
 if os.path.exists(utr5FName) or os.path.exists(utr5StartFName) or os.path.exists(cdsFName) or os.path.exists(utr3FName) or os.path.exists(exonFName) or os.path.exists(intronFName) or os.path.exists(promoterFName) or os.path.exists(p15kFName) \
-        or os.path.exists(codingExonFName) or os.path.exists(codingIntronFName) or os.path.exists(noncodingExonFName) or os.path.exists(noncodingIntronFName):
+        or os.path.exists(codingExonFName) or os.path.exists(codingIntronFName) or os.path.exists(noncodingExonFName) or os.path.exists(noncodingIntronFName) or os.path.exists(d1kFName):
     sys.exit("ERROR: output basename %s files already exist" % args.output)
 
 #process the file
@@ -67,7 +69,7 @@ with open(utr5FName, "w") as utr5File, open(utr5StartFName, "w") as utr5StartFil
         open(utr3FName, "w") as utr3File, open(exonFName, "w") as exonFile, open (intronFName, "w") as intronFile, \
         open(codingExonFName, "w") as codingExonFile, open(codingIntronFName, "w") as codingIntronFile, \
         open(noncodingExonFName, "w") as noncodingExonFile, open(noncodingIntronFName, "w") as noncodingIntronFile, \
-        open(promoterFName, "w") as promoterFile, open(p15kFName, "w") as p15kFile:
+        open(promoterFName, "w") as promoterFile, open(p15kFName, "w") as p15kFile, open(d1kFName, "w") as d1kFile:
 
     def writeOutput(gene):
         if(gene.coding):
@@ -101,7 +103,8 @@ with open(utr5FName, "w") as utr5File, open(utr5StartFName, "w") as utr5StartFil
             promoterFile.write(entry + "\n")
         for entry in gene.bedFormat(region="p1-5k", tx_id=tx_id):
             p15kFile.write(entry + "\n")
-
+        for entry in gene.bedFormat(region="d1k", tx_id=tx_id):
+            d1kFile.write(entry + "\n")
 
     txDict = defaultdict(list) 
 
@@ -139,5 +142,3 @@ with open(utr5FName, "w") as utr5File, open(utr5StartFName, "w") as utr5StartFil
 
 
 print "Processed %d entries." %  genesRead
-
-

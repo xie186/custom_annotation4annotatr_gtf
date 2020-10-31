@@ -34,6 +34,7 @@ class Transcript:
         self.intronsLen = 0
         self.promoter = []  ## promoter 1kb
         self.p15k = []  ### 1-5k upstream of promoter
+        self.d1k = []  ## downstream 1k  
         self.coding = False
 
 
@@ -79,6 +80,9 @@ class Transcript:
             returnVal.append("%s\t%d\t%d\t%s\t%s\t%s" % (self.chrom, self.promotStart, self.promotEnd, self.name, self.symbol, tx_id))
         elif (region == "p1-5k"):
             returnVal.append("%s\t%d\t%d\t%s\t%s\t%s" % (self.chrom, self.p15kStart, self.p15kEnd, self.name, self.symbol, tx_id))
+        elif (region == "d1k"):
+            returnVal.append("%s\t%d\t%d\t%s\t%s\t%s" % (self.chrom, self.d1kStart, self.d1kEnd, self.name, self.symbol, tx_id))
+
         else:
             print "Transcript.py bedFormat error: currently only regions 5utr/cds/3utr/exons/introns are supported"
             
@@ -97,6 +101,9 @@ class Transcript:
             ### 1-5K 
             self.p15kStart = self.txStart -5000 if  self.txStart -5000 > 0 else 0
             self.p15kEnd = self.txStart -1000 if  self.txStart -1000 >0 else 0
+            ### d1k
+            self.d1kStart = self.txEnd + 1
+            self.d1kEnd = self.txEnd + 1000
         #print ("DBUG - exonCt %d i %d exonEnds[i] %d cdsStart %d exonStarts[i] %d cdsEnd %d") % \
             #    (self.exonCt, i, self.exonEnds[i], self.cdsStart, self.exonStarts[i], self.cdsEnd)
             for i in range (self.exonCt): 
@@ -165,6 +172,9 @@ class Transcript:
             ### 1-5K
             self.p15kStart = self.txEnd + 1000
             self.p15kEnd = self.txEnd + 5000
+            ### downstread 1k
+            self.d1kStart = self.txStart - 1000 if  self.txStart - 1000 > 0 else 0
+            self.d1kEnd = self.txStart - 1 if  self.txStart - 1 >0 else 0
      #uc001ach.2	    chr1    -	    910578  917473  911551  916546  5	    910578,911878,914260,916516,917444,	    911649,912004,916037,916553,917473,	    Q5SV97  uc001ach.2
             #	name		chrom	strand	txStart txEnd	cdsStart self.cdsEnd exonCt	exonStarts		exonEnds		proteinID  alignID 
             # for the minus strand everything is the same except the order of encountering regions is reversed
